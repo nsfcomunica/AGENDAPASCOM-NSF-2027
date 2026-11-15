@@ -1034,9 +1034,62 @@
             }
         }
 
+        // --- GERENCIAMENTO DE NOTIFICAÇÕES / LEMBRETES ---
+        let currentNotificationEventId = null;
+
+        function openNotificationModal(id) {
+            const ev = events.find(e => String(e.id) === String(id));
+            if (!ev) return;
+
+            currentNotificationEventId = ev.id;
+            document.getElementById('notifEventTitle').innerText = ev.title;
+            document.getElementById('notifEventDate').innerText = `${formatDateBR(ev.date)}${ev.time ? ' às ' + ev.time : ''} • ${ev.location || 'Arquidiocese de Vitória'}`;
+            
+            updateNotificationContact();
+            document.getElementById('notificationModal').classList.remove('hidden');
+        }
+
+        function closeNotificationModal() {
+            document.getElementById('notificationModal').classList.add('hidden');
+            currentNotificationEventId = null;
+        }
+
+        function updateNotificationContact() {
+            if (!currentNotificationEventId) return;
+            const ev = events.find(e => String(e.id) === String(currentNotificationEventId));
+            if (!ev) return;
+
+            const channel = document.getElementById('notifChannel').value;
+            const input = document.getElementById('notifContactInput');
+            const label = document.getElementById('notifContactLabel');
+            const notice = document.getElementById('notifStatusNotice');
+
+            if (channel === 'whatsapp') {
+                label.innerText = 'WhatsApp do Responsável';
+                input.value = ev.respPhone || '';
+                input.placeholder = '(27) 99999-9999';
+                if (!ev.respPhone) {
+                    notice.innerText = 'Atenção: Este evento não possui telefone cadastrado. Preencha acima para enviar.';
+                    notice.classList.remove('hidden');
+                } else {
+                    notice.classList.add('hidden');
+                }
+            } else {
+                label.innerText = 'E-mail do Responsável';
+                input.value = ev.respEmail || '';
+                input.placeholder = 'email@aves.org.br';
+                if (!ev.respEmail) {
+                    notice.innerText = 'Atenção: Este evento não possui e-mail cadastrado. Preencha acima para enviar.';
+                    notice.classList.remove('hidden');
+                } else {
+                    notice.classList.add('hidden');
+                }
+            }
+        }
+
         function triggerNotification() {
             if (!currentNotificationEventId) return;
-            const ev = events.find(e => e.id === currentNotificationEventId);
+            const ev = events.find(e => String(e.id) === String(currentNotificationEventId));
             if (!ev) return;
 
             const channel = document.getElementById('notifChannel').value;
