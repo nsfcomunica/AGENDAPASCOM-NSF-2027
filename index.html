@@ -101,43 +101,94 @@
         </div>
 
         <!-- BARRA DE PAINEL E FILTROS -->
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-6 flex flex-col lg:flex-row justify-between items-center gap-4">
-            <!-- Busca por Texto -->
-            <div class="relative w-full lg:w-96">
-                <input type="text" id="searchInput" oninput="render()" placeholder="Buscar evento, responsável ou local..." class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-catholic-navy focus:border-catholic-navy outline-none">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-sm"></i>
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-6 space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-3">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-catholic-navy flex items-center gap-1.5">
+                    <i class="fa-solid fa-filter text-catholic-gold"></i> Filtros Avançados de Pesquisa
+                </h2>
+                <div class="flex flex-wrap items-center gap-2">
+                    <!-- Legenda de Cores -->
+                    <div class="flex items-center gap-1.5 text-[11px] font-medium mr-2">
+                        <span class="px-2 py-0.5 rounded-full bg-red-100 text-red-800 border border-red-200 font-semibold">Feriado</span>
+                        <span class="px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 border border-sky-200 font-semibold">Nacional</span>
+                        <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200 font-semibold">Regional (ES)</span>
+                    </div>
+                    <button onclick="clearAllFilters()" class="px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-catholic-navy bg-slate-100 hover:bg-slate-200 rounded-md transition-colors">
+                        <i class="fa-solid fa-eraser mr-1"></i> Limpar Filtros
+                    </button>
+                    <!-- Alternador Tabela / Cards -->
+                    <div class="bg-slate-100 p-1 rounded-lg border border-slate-200 flex items-center">
+                        <button id="btnViewTable" onclick="setViewMode('table')" class="px-3 py-1 text-xs font-semibold rounded-md shadow-sm bg-catholic-navy text-white transition-all">
+                            <i class="fa-solid fa-list mr-1"></i> Tabela
+                        </button>
+                        <button id="btnViewCards" onclick="setViewMode('cards')" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-800 transition-all">
+                            <i class="fa-solid fa-grip-vertical mr-1"></i> Cards
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Filtros de Mês e Categoria/Dimensão -->
-            <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
-                <select id="monthFilter" onchange="render()" class="py-2 px-3 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-catholic-navy outline-none">
-                    <option value="all">Todos os Meses</option>
-                    <option value="01">Janeiro</option>
-                    <option value="02">Fevereiro</option>
-                    <option value="03">Março</option>
-                    <option value="04">Abril</option>
-                    <option value="05">Maio</option>
-                    <option value="06">Junho</option>
-                    <option value="07">Julho</option>
-                    <option value="08">Agosto</option>
-                    <option value="09">Setembro</option>
-                    <option value="10">Outubro</option>
-                    <option value="11">Novembro</option>
-                    <option value="12">Dezembro</option>
-                </select>
+            <!-- Grid de Filtros Específicos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
+                <!-- Filtro por Data Exata -->
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Data Específica</label>
+                    <input type="date" id="dateFilter" onchange="render()" min="2027-01-01" max="2027-12-31" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-catholic-navy outline-none">
+                </div>
 
-                <select id="categoryFilter" onchange="render()" class="py-2 px-3 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-catholic-navy outline-none">
-                    <option value="all">Todas as Dimensões</option>
-                </select>
+                <!-- Filtro por Mês -->
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Mês</label>
+                    <select id="monthFilter" onchange="render()" class="w-full py-1.5 px-2.5 border border-slate-300 rounded-lg text-xs bg-white focus:ring-2 focus:ring-catholic-navy outline-none">
+                        <option value="all">Todos os Meses</option>
+                        <option value="01">Janeiro</option>
+                        <option value="02">Fevereiro</option>
+                        <option value="03">Março</option>
+                        <option value="04">Abril</option>
+                        <option value="05">Maio</option>
+                        <option value="06">Junho</option>
+                        <option value="07">Julho</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Setembro</option>
+                        <option value="10">Outubro</option>
+                        <option value="11">Novembro</option>
+                        <option value="12">Dezembro</option>
+                    </select>
+                </div>
 
-                <!-- Alternador Tabela / Cards -->
-                <div class="bg-slate-100 p-1 rounded-lg border border-slate-200 flex items-center">
-                    <button id="btnViewTable" onclick="setViewMode('table')" class="px-3 py-1.5 text-xs font-semibold rounded-md shadow-sm bg-catholic-navy text-white transition-all">
-                        <i class="fa-solid fa-list mr-1"></i> Tabela
-                    </button>
-                    <button id="btnViewCards" onclick="setViewMode('cards')" class="px-3 py-1.5 text-xs font-semibold rounded-md text-slate-600 hover:text-slate-800 transition-all">
-                        <i class="fa-solid fa-grip-vertical mr-1"></i> Cards
-                    </button>
+                <!-- Filtro por Evento -->
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Evento / Atividade</label>
+                    <div class="relative">
+                        <input type="text" id="eventFilter" oninput="render()" placeholder="Nome do evento..." class="w-full pl-7 pr-2.5 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-catholic-navy outline-none">
+                        <i class="fa-solid fa-calendar-day absolute left-2.5 top-2 text-slate-400 text-[11px]"></i>
+                    </div>
+                </div>
+
+                <!-- Filtro por Dimensão -->
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Dimensão</label>
+                    <select id="categoryFilter" onchange="render()" class="w-full py-1.5 px-2.5 border border-slate-300 rounded-lg text-xs bg-white focus:ring-2 focus:ring-catholic-navy outline-none">
+                        <option value="all">Todas as Dimensões</option>
+                    </select>
+                </div>
+
+                <!-- Filtro por Local -->
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Local / Âmbito</label>
+                    <div class="relative">
+                        <input type="text" id="locationFilter" oninput="render()" placeholder="Ex: Vitória, Catedral..." class="w-full pl-7 pr-2.5 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-catholic-navy outline-none">
+                        <i class="fa-solid fa-location-dot absolute left-2.5 top-2 text-slate-400 text-[11px]"></i>
+                    </div>
+                </div>
+
+                <!-- Filtro por Responsável -->
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">Responsável</label>
+                    <div class="relative">
+                        <input type="text" id="respFilter" oninput="render()" placeholder="Nome ou equipe..." class="w-full pl-7 pr-2.5 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-catholic-navy outline-none">
+                        <i class="fa-solid fa-user absolute left-2.5 top-2 text-slate-400 text-[11px]"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -190,13 +241,23 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Classificação / Abrangência</label>
+                        <select id="evScope" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-catholic-navy outline-none bg-white">
+                            <option value="">Comum / Paroquial</option>
+                            <option value="feriado">🔴 Feriado (Nacional / Estadual / Municipal)</option>
+                            <option value="nacional">🔵 Dia Santo / Comemorativo Nacional</option>
+                            <option value="regional">🟡 Dia Santo / Comemorativo Regional (ES)</option>
+                        </select>
+                    </div>
+                    <div>
                         <label class="block font-semibold text-slate-700 mb-1">Local / Âmbito</label>
                         <input type="text" id="evLocation" placeholder="Ex: Catedral de Vitória / Paróquia..." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-catholic-navy outline-none">
                     </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Tarefa / Atribuição</label>
-                        <input type="text" id="evTask" placeholder="Ex: Fotografia, Transmissão, Arte..." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-catholic-navy outline-none">
-                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Tarefa / Atribuição</label>
+                    <input type="text" id="evTask" placeholder="Ex: Fotografia, Transmissão, Arte..." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-catholic-navy outline-none">
                 </div>
 
                 <!-- SEÇÃO DO RESPONSÁVEL COM CAMPOS SEPARADOS -->
@@ -485,39 +546,52 @@
         let viewMode = 'table';
         let availableCategories = ["Liturgia", "Arquidiocese", "Catequese", "ECC / Família", "RCC", "CNBB", "PASCOM"];
 
-        // BASE DE DADOS OFICIAL DA AGENDA PASTORAL 2027
+        // BASE DE DADOS OFICIAL DA AGENDA PASTORAL 2027 (COM CLASSIFICAÇÃO DE FERIADOS, NACIONAIS E REGIONAIS ES)
         const initialEvents2027 = [
-            // FERIADOS NACIONAIS, ESTADUAIS (ES) E MUNICIPAIS (VITÓRIA, SERRA, VILA VELHA) & EVENTOS LITÚRGICOS
-            { id: 1, date: "2027-01-01", title: "Confraternização Universal (Feriado Nacional) / Santa Maria, Mãe de Deus", category: "Liturgia", location: "Nacional / Arquidiocese", respName: "Equipe Litúrgica Arquidiocesana", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Feriado Nacional. Dia Mundial da Paz e Missa de Abertura do Ano Litúrgico." },
-            { id: 2, date: "2027-01-24", title: "Dia Mundial da Comunicação / Domingo da Palavra", category: "PASCOM", location: "Todas as Paróquias", respName: "Coordenação PASCOM Arquidiocesana", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Divulgação dos subsídios de comunicação e incentivo à Pastoral de Comunicação." },
-            { id: 3, date: "2027-01-30", title: "Reunião de Alinhamento da PASCOM, Catequese e ECC", category: "Arquidiocese", location: "Auditório Arquidiocesano - Vitória", respName: "Coordenação Arquidiocesana", respEmail: "secretaria@aves.org.br", respPhone: "(27) 3223-0000", description: "Planejamento integrado das diretrizes de comunicação para 2027." },
-            { id: 4, date: "2027-02-08", title: "Carnaval (Ponto Facultativo / Retiros)", category: "RCC", location: "Grande Vitória", respName: "Conselho Diocesano da RCC / Movimentos", respEmail: "rcc@aves.org.br", respPhone: "(27) 99999-8888", description: "Retiros de Carnaval e eventos da Renovação Carismática na Arquidiocese." },
-            { id: 5, date: "2027-02-09", title: "Carnaval (Ponto Facultativo)", category: "Arquidiocese", location: "Grande Vitória", respName: "Arquidiocese de Vitória", respEmail: "secretaria@aves.org.br", respPhone: "(27) 3223-0000", description: "Ponto Facultativo em Vitória, Vila Velha e Serra." },
-            { id: 6, date: "2027-02-10", title: "Quarta-feira de Cinzas (Abertura da Quaresma e CF 2027)", category: "CNBB", location: "Todas as Comunidades", respName: "Clero / Equipes da Campanha da Fraternidade", respEmail: "cf@aves.org.br", respPhone: "(27) 99999-0003", description: "Lançamento da Campanha da Fraternidade 2027 nas mídias e paróquias." },
-            { id: 7, date: "2027-02-27", title: "Retiro Espiritual dos Agentes da PASCOM e Catequistas", category: "PASCOM", location: "Santuário Anchieta / Casas de Oração", respName: "Assessoria Espiritual da PASCOM", respEmail: "retiro.pascom@aves.org.br", respPhone: "(27) 99999-0004", description: "Dia de oração e espiritualidade dos comunicadores." },
-            { id: 8, date: "2027-03-21", title: "Domingo de Ramos e da Paixão do Senhor", category: "Liturgia", location: "Todas as Paróquias", respName: "Vicariatos / Clero Arquidiocesano", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Coleta da Solidariedade e cobertura de imprensa das procissões." },
-            { id: 9, date: "2027-03-25", title: "Missa do Chrismal (Santos Óleos)", category: "Arquidiocese", location: "Catedral Metropolitana de Vitória", respName: "Arcebispo, Clero e PASCOM", respEmail: "comunicacao@catedralvitoria.com.br", respPhone: "(27) 3222-5555", description: "Transmissão ao vivo e cobertura fotográfica oficial." },
-            { id: 10, date: "2027-03-26", title: "Sexta-feira Santa da Paixão (Feriado Nacional)", category: "Liturgia", location: "Todas as Paróquias", respName: "Pastorais Litúrgicas e PASCOM", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Feriado Nacional. Celebrações da Paixão do Senhor e Procissão do Senhor Morto." },
-            { id: 11, date: "2027-03-28", title: "Domingo da Ressurreição do Senhor (Páscoa)", category: "Liturgia", location: "Todas as Paróquias", respName: "Pastorais Litúrgicas e PASCOM", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Celebrações de Páscoa nas comunidades." },
-            { id: 12, date: "2027-04-03", title: "Festa da Penha 2027 (Romaria dos Homens e Famílias)", category: "Arquidiocese", location: "Convento da Penha - Vila Velha", respName: "Comissão Arquidiocesana de Eventos & PASCOM", respEmail: "festadapenha@aves.org.br", respPhone: "(27) 3329-0000", description: "3ª Maior Festa Mariana do Brasil. Cobertura completa de imprensa e transmissões." },
-            { id: 13, date: "2027-04-05", title: "Dia de Nossa Senhora da Penha (Feriado Estadual - ES)", category: "Arquidiocese", location: "Estado do Espírito Santo", respName: "Governo do Estado / Arquidiocese de Vitória", respEmail: "festadapenha@aves.org.br", respPhone: "(27) 3329-0000", description: "Feriado Estadual em todo o Espírito Santo em honra à Padroeira do Estado." },
-            { id: 14, date: "2027-04-21", title: "Tiradentes (Feriado Nacional)", category: "CNBB", location: "Nacional", respName: "Governo Federal", respEmail: "contato@aves.org.br", respPhone: "(27) 3223-0000", description: "Feriado Nacional em memória de Tiradentes." },
-            { id: 15, date: "2027-05-01", title: "Dia Mundial do Trabalho (Feriado Nacional) / São José Operário", category: "Liturgia", location: "Nacional", respName: "Pastoral do Trabalho", respEmail: "trabalho@aves.org.br", respPhone: "(27) 99999-0005", description: "Feriado Nacional. Missas com bênção dos trabalhadores." },
-            { id: 16, date: "2027-05-16", title: "58º Dia Mundial das Comunicações Sociais (Pentecostes)", category: "PASCOM", location: "Catedral e Paróquias", respName: "Equipe Geral da PASCOM Vitória", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Mensagem do Papa para as comunicações e envio dos agentes da PASCOM." },
-            { id: 17, date: "2027-05-23", title: "Colonização do Solo Espiritosantense (Feriado Municipal em Vila Velha)", category: "Arquidiocese", location: "Vila Velha", respName: "Prefeitura de Vila Velha", respEmail: "contato@vilavelha.es.gov.br", respPhone: "(27) 3388-4000", description: "Feriado Municipal em Vila Velha." },
-            { id: 18, date: "2027-05-27", title: "Corpus Christi (Feriado Municipal em Vitória, Vila Velha e Serra)", category: "Liturgia", location: "Grande Vitória", respName: "Comissões Paroquiais e PASCOM", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Feriado Municipal na Grande Vitória. Confecção dos tradicionais tapetes de Corpus Christi." },
-            { id: 19, date: "2027-06-29", title: "Dia de São Pedro (Feriado Municipal na Serra e em Praia do Canto - Vitória)", category: "Liturgia", location: "Serra / Vitória", respName: "Paróquia São Pedro / Prefeitura da Serra", respEmail: "paroquiasaopedro@aves.org.br", respPhone: "(27) 3251-1000", description: "Feriado Municipal na Serra e dia do Padroeiro da Praia do Canto em Vitória." },
-            { id: 20, date: "2027-08-22", title: "Dia do Comunicador Paroquial & Encontro da PASCOM", category: "PASCOM", location: "Centro Pastoral Arquidiocesano", respName: "Coordenação Arquidiocesana da PASCOM", respEmail: "pascom.vitoria@gmail.com", respPhone: "(27) 99999-7777", description: "Encontro de capacitação e produção audiovisual para comunicadores." },
-            { id: 21, date: "2027-09-07", title: "Independência do Brasil (Feriado Nacional)", category: "CNBB", location: "Nacional", respName: "Governo Federal / CNBB", respEmail: "contato@aves.org.br", respPhone: "(27) 3223-0000", description: "Feriado Nacional. Grito dos Excluídos promovido pelas pastorais sociais." },
-            { id: 22, date: "2027-09-08", title: "Aniversário de Vitória e Festa de N. Sra. da Vitória (Feriado Municipal em Vitória)", category: "Arquidiocese", location: "Vitória (Catedral Metropolitana)", respName: "Prefeitura de Vitória / Catedral", respEmail: "catedral@aves.org.br", respPhone: "(27) 3222-5555", description: "Feriado Municipal em Vitória. Festa da Padroeira da cidade e da Arquidiocese." },
-            { id: 23, date: "2027-10-12", title: "Nossa Senhora Aparecida (Feriado Nacional - Padroeira do Brasil)", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "Toda a Arquidiocese", respEmail: "contato@aves.org.br", respPhone: "(27) 3223-0000", description: "Feriado Nacional em honra à Padroeira do Brasil." },
-            { id: 24, date: "2027-10-28", title: "Dia do Servidor Público (Ponto Facultativo)", category: "Arquidiocese", location: "Grande Vitória", respName: "Prefeituras / Governo ES", respEmail: "secretaria@aves.org.br", respPhone: "(27) 3223-0000", description: "Ponto facultativo nas repartições públicas." },
-            { id: 25, date: "2027-11-02", title: "Dia de Finados (Feriado Nacional)", category: "Liturgia", location: "Nacional / Cemitérios e Paróquias", respName: "Pastoral da Consolação e Esperança", respEmail: "consolacao@aves.org.br", respPhone: "(27) 99999-0006", description: "Feriado Nacional. Missas pelos fiéis defuntos." },
-            { id: 26, date: "2027-11-15", title: "Proclamação da República (Feriado Nacional)", category: "CNBB", location: "Nacional", respName: "Governo Federal", respEmail: "contato@aves.org.br", respPhone: "(27) 3223-0000", description: "Feriado Nacional." },
-            { id: 27, date: "2027-11-20", title: "Dia Nacional de Zumbi e da Consciência Negra (Feriado Nacional) / Assembleia PASCOM", category: "PASCOM", location: "Nacional / Vitória", respName: "Coordenação da PASCOM & Pastorais Sociais", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Feriado Nacional. Avaliação do ano e planejamento das ações de comunicação." },
-            { id: 28, date: "2027-12-08", title: "Imaculada Conceição / Dia de N. Sra. da Conceição (Feriado Municipal na Serra)", category: "Liturgia", location: "Serra / Vitória", respName: "Prefeitura da Serra / Paróquias", respEmail: "paroquiaserra@aves.org.br", respPhone: "(27) 3251-1200", description: "Feriado Municipal no município da Serra e Solenidade da Imaculada Conceição." },
-            { id: 29, date: "2027-12-25", title: "Natal do Senhor (Feriado Nacional)", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "Toda a Arquidiocese", respEmail: "contato@aves.org.br", respPhone: "(27) 3223-0000", description: "Feriado Nacional. Celebrações do Nascimento de Jesus Cristo." },
-            { id: 30, date: "2027-12-26", title: "Dia de São Benedito (Feriado Municipal na Serra)", category: "Arquidiocese", location: "Serra (Sede)", respName: "Prefeitura da Serra / Festa de São Benedito", respEmail: "contato.serra@aves.org.br", respPhone: "(27) 3251-1000", description: "Feriado Municipal no município da Serra em celebração ao Puxadão de São Benedito." }
+            { id: 1, date: "2027-01-01", scope: "feriado", title: "Confraternização Universal / Solenidade de Santa Maria, Mãe de Deus", category: "Liturgia", location: "Nacional / Arquidiocese", respName: "Equipe Litúrgica Arquidiocesana", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Feriado Nacional e Dia Santo de Guarda. Dia Mundial da Paz e Abertura do Ano Civil." },
+            { id: 2, date: "2027-01-03", scope: "nacional", title: "Epifania do Senhor (Dia de Reis)", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "Equipe de Liturgia", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Solenidade da Manifestação do Senhor no Brasil." },
+            { id: 3, date: "2027-01-20", scope: "nacional", title: "Dia de São Sebastião (Mártir)", category: "Liturgia", location: "Comunidades / Nacional", respName: "Comunidades de São Sebastião", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Festa tradicional de São Sebastião, muito celebrada nas comunidades capixabas." },
+            { id: 4, date: "2027-01-24", scope: "nacional", title: "Domingo da Palavra de Deus / Dia de São Francisco de Sales", category: "PASCOM", location: "Todas as Paróquias", respName: "Coordenação PASCOM Arquidiocesana", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Padroeiro dos Jornalistas e Comunicadores. Incentivo à Pastoral da Comunicação." },
+            { id: 5, date: "2027-01-30", scope: "regional", title: "Reunião de Alinhamento da PASCOM, Catequese e ECC", category: "Arquidiocese", location: "Auditório Arquidiocesano - Vitória", respName: "Coordenação Arquidiocesana", respEmail: "secretaria@aves.org.br", respPhone: "(27) 3223-0000", description: "Planejamento integrado das diretrizes de comunicação da Arquidiocese de Vitória para 2027." },
+            { id: 6, date: "2027-02-08", scope: "regional", title: "Carnaval (Retiros e Acampamentos Católicos)", category: "RCC", location: "Grande Vitória", respName: "Conselho Diocesano da RCC / Movimentos", respEmail: "rcc@aves.org.br", respPhone: "(27) 99999-8888", description: "Retiros de Carnaval e eventos da Renovação Carismática na Arquidiocese." },
+            { id: 7, date: "2027-02-09", scope: "feriado", title: "Terça-feira de Carnaval (Ponto Facultativo)", category: "Arquidiocese", location: "Grande Vitória", respName: "Arquidiocese de Vitória", respEmail: "secretaria@aves.org.br", respPhone: "(27) 3223-0000", description: "Ponto Facultativo em Vitória, Vila Velha e Serra." },
+            { id: 8, date: "2027-02-10", scope: "nacional", title: "Quarta-feira de Cinzas (Abertura da Quaresma e CF 2027)", category: "CNBB", location: "Nacional / Todas as Comunidades", respName: "Clero / Equipes da Campanha da Fraternidade", respEmail: "cf@aves.org.br", respPhone: "(27) 99999-0003", description: "Início da Quaresma e lançamento nacional da Campanha da Fraternidade 2027." },
+            { id: 9, date: "2027-02-27", scope: "regional", title: "Retiro Espiritual dos Agentes da PASCOM e Catequistas", category: "PASCOM", location: "Santuário Nacional de São José de Anchieta", respName: "Assessoria Espiritual da PASCOM", respEmail: "retiro.pascom@aves.org.br", respPhone: "(27) 99999-0004", description: "Dia de oração e espiritualidade dos comunicadores no Espírito Santo." },
+            { id: 10, date: "2027-03-19", scope: "nacional", title: "Solenidade de São José (Esposo da Virgem Maria)", category: "Liturgia", location: "Nacional / Paróquias", respName: "Pastoral Familiar / ECC", respEmail: "familia@aves.org.br", respPhone: "(27) 99999-0001", description: "Dia Santo e data comemorativa dedicada a São José, padroeiro das famílias e da Igreja." },
+            { id: 11, date: "2027-03-21", scope: "nacional", title: "Domingo de Ramos e da Paixão do Senhor", category: "Liturgia", location: "Todas as Paróquias", respName: "Vicariatos / Clero Arquidiocesano", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Abertura da Semana Santa e Coleta Nacional da Solidariedade." },
+            { id: 12, date: "2027-03-25", scope: "regional", title: "Missa do Chrismal (Santos Óleos) e Anunciação do Senhor", category: "Arquidiocese", location: "Catedral Metropolitana de Vitória", respName: "Arcebispo, Clero e PASCOM", respEmail: "comunicacao@catedralvitoria.com.br", respPhone: "(27) 3222-5555", description: "Transmissão ao vivo e cobertura fotográfica oficial na Catedral de Vitória." },
+            { id: 13, date: "2027-03-26", scope: "feriado", title: "Sexta-feira Santa da Paixão do Senhor", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "Pastorais Litúrgicas e PASCOM", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Feriado Nacional. Celebrações da Paixão do Senhor e Procissão do Senhor Morto." },
+            { id: 14, date: "2027-03-28", scope: "nacional", title: "Domingo da Ressurreição do Senhor (Páscoa)", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "Pastorais Litúrgicas e PASCOM", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Solenidade máxima da Igreja Católica: Páscoa do Senhor." },
+            { id: 15, date: "2027-04-03", scope: "regional", title: "Festa da Penha 2027 (Romaria dos Homens e Famílias)", category: "Arquidiocese", location: "Convento da Penha - Vila Velha (ES)", respName: "Comissão Arquidiocesana de Eventos & PASCOM", respEmail: "festadapenha@aves.org.br", respPhone: "(27) 3329-0000", description: "3ª Maior Festa Mariana do Brasil e maior celebração religiosa do Espírito Santo." },
+            { id: 16, date: "2027-04-05", scope: "feriado", title: "Dia de Nossa Senhora da Penha (Padroeira do Espírito Santo)", category: "Arquidiocese", location: "Estado do Espírito Santo", respName: "Governo do Estado / Arquidiocese de Vitória", respEmail: "festadapenha@aves.org.br", respPhone: "(27) 3329-0000", description: "Feriado Estadual em todo o Espírito Santo em honra à Padroeira do Estado." },
+            { id: 17, date: "2027-04-21", scope: "feriado", title: "Tiradentes", category: "CNBB", location: "Nacional", respName: "Governo Federal", respEmail: "contato@aves.org.br", respPhone: "(27) 3223-0000", description: "Feriado Nacional." },
+            { id: 18, date: "2027-05-01", scope: "feriado", title: "Dia Mundial do Trabalho / São José Operário", category: "Liturgia", location: "Nacional", respName: "Pastoral do Trabalho", respEmail: "trabalho@aves.org.br", respPhone: "(27) 99999-0005", description: "Feriado Nacional. Missas com bênção dos trabalhadores." },
+            { id: 19, date: "2027-05-06", scope: "nacional", title: "Ascensão do Senhor", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "Equipe Litúrgica", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Solenidade da Ascensão do Senhor (celebrada no domingo seguinte no Brasil, 09/05)." },
+            { id: 20, date: "2027-05-13", scope: "nacional", title: "Dia de Nossa Senhora de Fátima", category: "Liturgia", location: "Nacional / Comunidades", respName: "Movimentos Marianos / PASCOM", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Memória de Nossa Senhora de Fátima, com procissões luminosas nas paróquias." },
+            { id: 21, date: "2027-05-16", scope: "nacional", title: "Solenidade de Pentecostes / 58º Dia Mundial das Comunicações Sociais", category: "PASCOM", location: "Catedral e Paróquias", respName: "Equipe Geral da PASCOM Vitória", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Vinda do Espírito Santo e Dia Mundial das Comunicações Sociais." },
+            { id: 22, date: "2027-05-23", scope: "feriado", title: "Colonização do Solo Espiritosantense (Vila Velha) / Santíssima Trindade", category: "Arquidiocese", location: "Vila Velha (ES)", respName: "Prefeitura de Vila Velha / Paróquias", respEmail: "contato@vilavelha.es.gov.br", respPhone: "(27) 3388-4000", description: "Feriado Municipal em Vila Velha (ES) e Solenidade da Santíssima Trindade." },
+            { id: 23, date: "2027-05-27", scope: "feriado", title: "Solenidade de Corpus Christi", category: "Liturgia", location: "Grande Vitória (Vitória, Vila Velha, Serra)", respName: "Comissões Paroquiais e PASCOM", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Feriado Municipal na Grande Vitória. Confecção dos tapetes e Procissão do Santíssimo." },
+            { id: 24, date: "2027-06-04", scope: "nacional", title: "Solenidade do Sagrado Coração de Jesus", category: "Liturgia", location: "Nacional / Paróquias", respName: "Apostolado da Oração", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Dia Mundial de Oração pela Santificação do Clero." },
+            { id: 25, date: "2027-06-09", scope: "regional", title: "Dia Nacional de São José de Anchieta (Apóstolo do Brasil)", category: "Arquidiocese", location: "Anchieta / Espírito Santo", respName: "Santuário Nacional de Anchieta / Arquidiocese", respEmail: "secretaria@aves.org.br", respPhone: "(27) 3223-0000", description: "Festa do Padroeiro do Brasil com forte celebração histórica no Espírito Santo." },
+            { id: 26, date: "2027-06-13", scope: "nacional", title: "Dia de Santo Antônio de Pádua", category: "Liturgia", location: "Nacional / Comunidades", respName: "Comunidades de Santo Antônio", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Festa popular de Santo Antônio com bênção e distribuição dos pães." },
+            { id: 27, date: "2027-06-24", scope: "nacional", title: "Natividade de São João Batista", category: "Liturgia", location: "Nacional / Comunidades", respName: "Comissões de Festas / Liturgia", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Solenidade do Nascimento de São João Batista." },
+            { id: 28, date: "2027-06-29", scope: "feriado", title: "Dia de São Pedro e São Paulo (Feriado na Serra e Praia do Canto)", category: "Liturgia", location: "Serra / Vitória (ES)", respName: "Paróquia São Pedro / Prefeitura da Serra", respEmail: "paroquiasaopedro@aves.org.br", respPhone: "(27) 3251-1000", description: "Feriado Municipal na Serra e dia do Padroeiro dos Pescadores em Vitória." },
+            { id: 29, date: "2027-08-15", scope: "nacional", title: "Assunção de Nossa Senhora", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "Equipe Litúrgica / Vida Consagrada", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Solenidade da Assunção da Bem-Aventurada Virgem Maria." },
+            { id: 30, date: "2027-08-22", scope: "regional", title: "Dia do Comunicador Paroquial & Encontro da PASCOM", category: "PASCOM", location: "Centro Pastoral Arquidiocesano - Vitória", respName: "Coordenação Arquidiocesana da PASCOM", respEmail: "pascom.vitoria@gmail.com", respPhone: "(27) 99999-7777", description: "Encontro de capacitação e produção audiovisual para comunicadores do ES." },
+            { id: 31, date: "2027-09-07", scope: "feriado", title: "Independência do Brasil", category: "CNBB", location: "Nacional", respName: "Governo Federal / CNBB", respEmail: "contato@aves.org.br", respPhone: "(27) 3223-0000", description: "Feriado Nacional. Grito dos Excluídos promovido pelas pastorais sociais." },
+            { id: 32, date: "2027-09-08", scope: "feriado", title: "Nossa Senhora da Vitória (Padroeira de Vitória e da Arquidiocese)", category: "Arquidiocese", location: "Vitória - Catedral Metropolitana (ES)", respName: "Prefeitura de Vitória / Catedral", respEmail: "catedral@aves.org.br", respPhone: "(27) 3222-5555", description: "Feriado Municipal em Vitória. Solenidade da Natividade de Nossa Senhora e Padroeira da Arquidiocese." },
+            { id: 33, date: "2027-10-04", scope: "nacional", title: "Dia de São Francisco de Assis", category: "Liturgia", location: "Nacional / Comunidades", respName: "Pastorais Ecológicas / Comunidades", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Festa de São Francisco de Assis e bênção dos animais." },
+            { id: 34, date: "2027-10-12", scope: "feriado", title: "Solenidade de Nossa Senhora Aparecida (Padroeira do Brasil)", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "Toda a Arquidiocese", respEmail: "contato@aves.org.br", respPhone: "(27) 3223-0000", description: "Feriado Nacional e Dia Santo de Guarda em honra à Rainha e Padroeira do Brasil." },
+            { id: 35, date: "2027-10-28", scope: "feriado", title: "Dia do Servidor Público (Ponto Facultativo)", category: "Arquidiocese", location: "Grande Vitória", respName: "Prefeituras / Governo ES", respEmail: "secretaria@aves.org.br", respPhone: "(27) 3223-0000", description: "Ponto facultativo nas repartições públicas." },
+            { id: 36, date: "2027-11-01", scope: "nacional", title: "Solenidade de Todos os Santos", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "Equipe Litúrgica", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Celebração solene de todos os santos e santas de Deus." },
+            { id: 37, date: "2027-11-02", scope: "feriado", title: "Comemoração de Todos os Fiéis Defuntos (Finados)", category: "Liturgia", location: "Nacional / Cemitérios e Paróquias", respName: "Pastoral da Consolação e Esperança", respEmail: "consolacao@aves.org.br", respPhone: "(27) 99999-0006", description: "Feriado Nacional. Missas pelos fiéis defuntos." },
+            { id: 38, date: "2027-11-15", scope: "feriado", title: "Proclamação da República", category: "CNBB", location: "Nacional", respName: "Governo Federal", respEmail: "contato@aves.org.br", respPhone: "(27) 3223-0000", description: "Feriado Nacional." },
+            { id: 39, date: "2027-11-20", scope: "feriado", title: "Dia Nacional de Zumbi e da Consciência Negra / Assembleia PASCOM", category: "PASCOM", location: "Nacional / Vitória", respName: "Coordenação da PASCOM & Pastorais Sociais", respEmail: "pascom@aves.org.br", respPhone: "(27) 99999-0002", description: "Feriado Nacional. Avaliação do ano e planejamento das ações de comunicação." },
+            { id: 40, date: "2027-11-21", scope: "nacional", title: "Solenidade de Nosso Senhor Jesus Cristo, Rei do Universo", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "CNLB / Equipe Litúrgica", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Encerramento do Ano Litúrgico e Dia Nacional dos Cristãos Leigos e Leigas." },
+            { id: 41, date: "2027-11-28", scope: "nacional", title: "1º Domingo do Advento (Início do Novo Ano Litúrgico)", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "Equipe Litúrgica / Catequese", respEmail: "liturgia@aves.org.br", respPhone: "(27) 99999-0001", description: "Início do Tempo do Advento e preparação para o Natal." },
+            { id: 42, date: "2027-12-08", scope: "feriado", title: "Imaculada Conceição de Nossa Senhora (Feriado na Serra)", category: "Liturgia", location: "Serra / Vitória (ES)", respName: "Prefeitura da Serra / Paróquias", respEmail: "paroquiaserra@aves.org.br", respPhone: "(27) 3251-1200", description: "Feriado Municipal na Serra (ES) e Solenidade da Imaculada Conceição." },
+            { id: 43, date: "2027-12-25", scope: "feriado", title: "Solenidade do Natal de Nosso Senhor Jesus Cristo", category: "Liturgia", location: "Nacional / Todas as Paróquias", respName: "Toda a Arquidiocese", respEmail: "contato@aves.org.br", respPhone: "(27) 3223-0000", description: "Feriado Nacional e Dia Santo de Guarda. Celebrações do Nascimento de Jesus." },
+            { id: 44, date: "2027-12-26", scope: "feriado", title: "Dia de São Benedito (Feriado na Serra) / Festa da Sagrada Família", category: "Arquidiocese", location: "Serra (Sede) / Vitória (ES)", respName: "Prefeitura da Serra / Festa de São Benedito", respEmail: "contato.serra@aves.org.br", respPhone: "(27) 3251-1000", description: "Feriado Municipal na Serra (ES) e Festa Litúrgica da Sagrada Família." }
         ];
 
         // INICIALIZAÇÃO DA APLICAÇÃO
@@ -606,6 +680,7 @@
                 [
                   {
                     "date": "2027-MM-DD",
+                    "scope": "feriado",
                     "title": "Nome do Evento / Feriado",
                     "category": "Liturgia",
                     "location": "Âmbito / Cidade",
@@ -615,6 +690,7 @@
                     "description": "Descrição sucinta se é feriado nacional, estadual ou municipal"
                   }
                 ]
+                Onde "scope" deve ser "feriado" para feriados nacionais/estaduais/municipais, "nacional" para dias santos/comemorativos nacionais sem feriado, ou "regional" para eventos próprios do Espírito Santo.
                 Não acrescente formatação Markdown nem outro texto antes ou depois. Apenas o JSON.`;
 
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`, {
@@ -643,6 +719,7 @@
                         id: nextId + index,
                         date: ev.date || "2027-01-01",
                         time: ev.time || "",
+                        scope: ev.scope || "",
                         title: ev.title || "Evento Litúrgico",
                         category: ev.category || "Liturgia",
                         location: ev.location || "Arquidiocese de Vitória",
@@ -669,37 +746,95 @@
             }
         }
 
-        // OBTER EVENTOS FILTRADOS
+        // LIMPAR TODOS OS FILTROS
+        function clearAllFilters() {
+            document.getElementById('dateFilter').value = '';
+            document.getElementById('monthFilter').value = 'all';
+            document.getElementById('eventFilter').value = '';
+            document.getElementById('categoryFilter').value = 'all';
+            document.getElementById('locationFilter').value = '';
+            document.getElementById('respFilter').value = '';
+            render();
+        }
+
+        // OBTER EVENTOS FILTRADOS POR TODOS OS CAMPOS ESPECÍFICOS
         function getFilteredEvents() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const dateVal = document.getElementById('dateFilter').value;
             const monthVal = document.getElementById('monthFilter').value;
+            const eventTerm = document.getElementById('eventFilter').value.toLowerCase().trim();
             const categoryVal = document.getElementById('categoryFilter').value;
+            const locationTerm = document.getElementById('locationFilter').value.toLowerCase().trim();
+            const respTerm = document.getElementById('respFilter').value.toLowerCase().trim();
 
             return events.filter(ev => {
-                const matchesSearch = !searchTerm || 
-                    ev.title.toLowerCase().includes(searchTerm) || 
-                    (ev.respName && ev.respName.toLowerCase().includes(searchTerm)) ||
-                    (ev.location && ev.location.toLowerCase().includes(searchTerm)) ||
-                    (ev.task && ev.task.toLowerCase().includes(searchTerm)) ||
-                    (ev.description && ev.description.toLowerCase().includes(searchTerm));
+                // 1. Filtro por Data Específica
+                const matchesDate = !dateVal || ev.date === dateVal;
 
+                // 2. Filtro por Mês
                 let matchesMonth = true;
                 if (monthVal !== 'all') {
                     const evMonth = ev.date ? ev.date.substring(5, 7) : '';
                     matchesMonth = (evMonth === monthVal);
                 }
 
-                let matchesCategory = true;
-                if (categoryVal !== 'all') {
-                    matchesCategory = (ev.category === categoryVal);
-                }
+                // 3. Filtro por Evento (Título, Tarefa ou Descrição)
+                const matchesEvent = !eventTerm ||
+                    (ev.title && ev.title.toLowerCase().includes(eventTerm)) ||
+                    (ev.task && ev.task.toLowerCase().includes(eventTerm)) ||
+                    (ev.description && ev.description.toLowerCase().includes(eventTerm));
 
-                return matchesSearch && matchesMonth && matchesCategory;
+                // 4. Filtro por Dimensão
+                const matchesCategory = categoryVal === 'all' || ev.category === categoryVal;
+
+                // 5. Filtro por Local
+                const matchesLocation = !locationTerm ||
+                    (ev.location && ev.location.toLowerCase().includes(locationTerm));
+
+                // 6. Filtro por Responsável
+                const matchesResp = !respTerm ||
+                    (ev.respName && ev.respName.toLowerCase().includes(respTerm)) ||
+                    (ev.respEmail && ev.respEmail.toLowerCase().includes(respTerm)) ||
+                    (ev.respPhone && ev.respPhone.toLowerCase().includes(respTerm));
+
+                return matchesDate && matchesMonth && matchesEvent && matchesCategory && matchesLocation && matchesResp;
             }).sort((a, b) => {
                 const dateDiff = new Date(a.date) - new Date(b.date);
                 if (dateDiff !== 0) return dateDiff;
                 return (a.time || '').localeCompare(b.time || '');
             });
+        }
+
+        // HELPER PARA COR E ETIQUETA DE FERIADO / NACIONAL / REGIONAL
+        function getScopeStyling(ev) {
+            const scope = (ev.scope || '').toLowerCase();
+            const textCheck = `${ev.title || ''} ${ev.description || ''}`.toLowerCase();
+
+            if (scope === 'feriado' || textCheck.includes('feriado')) {
+                return {
+                    badge: `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-800 border border-red-300 ml-1.5"><i class="fa-solid fa-star mr-1 text-red-600"></i>Feriado</span>`,
+                    rowBg: 'bg-red-50/40',
+                    cardBorder: 'border-t-red-600'
+                };
+            }
+            if (scope === 'regional' || textCheck.includes('espírito santo') || textCheck.includes('vitória') || textCheck.includes('vila velha') || textCheck.includes('serra') || textCheck.includes('penha') || textCheck.includes('anchieta')) {
+                return {
+                    badge: `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300 ml-1.5"><i class="fa-solid fa-map-pin mr-1 text-amber-600"></i>Regional (ES)</span>`,
+                    rowBg: 'bg-amber-50/40',
+                    cardBorder: 'border-t-amber-500'
+                };
+            }
+            if (scope === 'nacional' || textCheck.includes('nacional') || textCheck.includes('solenidade')) {
+                return {
+                    badge: `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-100 text-sky-800 border border-sky-300 ml-1.5"><i class="fa-solid fa-flag mr-1 text-sky-600"></i>Nacional</span>`,
+                    rowBg: 'bg-sky-50/30',
+                    cardBorder: 'border-t-sky-600'
+                };
+            }
+            return {
+                badge: '',
+                rowBg: '',
+                cardBorder: 'border-t-catholic-navy'
+            };
         }
 
         // RENDERIZAR APLICAÇÃO (TABELA OU CARDS)
@@ -748,7 +883,8 @@
             `;
 
             filtered.forEach((ev, idx) => {
-                const zebraClass = idx % 2 === 1 ? 'bg-slate-50/70' : 'bg-white';
+                const scopeStyle = getScopeStyling(ev);
+                const zebraClass = scopeStyle.rowBg ? scopeStyle.rowBg : (idx % 2 === 1 ? 'bg-slate-50/70' : 'bg-white');
                 const badgeColor = getCategoryBadgeColor(ev.category);
 
                 html += `
@@ -757,7 +893,7 @@
                             ${formatDateBR(ev.date)}
                         </td>
                         <td class="px-4 py-3">
-                            <div class="font-bold text-slate-800">${ev.title}</div>
+                            <div class="font-bold text-slate-800 flex flex-wrap items-center">${ev.title} ${scopeStyle.badge}</div>
                             ${ev.description ? `<div class="text-xs text-slate-500 mt-0.5">${ev.description}</div>` : ''}
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
@@ -784,8 +920,8 @@
                                 <button onclick="openNotificationModal(${ev.id})" title="Enviar Lembrete / Notificação" class="p-1.5 rounded-md bg-amber-50 text-amber-600 hover:bg-amber-100 transition-colors border border-amber-200">
                                     <i class="fa-solid fa-bell"></i>
                                 </button>
-                                <button onclick="exportSingleICS(${ev.id})" title="Exportar para Google Agenda / Outlook (.ics)" class="p-1.5 rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors border border-blue-200">
-                                    <i class="fa-solid fa-calendar-plus"></i>
+                                <button onclick="duplicateEvent(${ev.id})" title="Duplicar Evento" class="p-1.5 rounded-md bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors border border-indigo-200">
+                                    <i class="fa-solid fa-copy"></i>
                                 </button>
                                 <button onclick="openModal(${ev.id})" title="Editar Evento" class="p-1.5 rounded-md bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors border border-slate-300">
                                     <i class="fa-solid fa-pen-to-square"></i>
@@ -813,8 +949,9 @@
 
             filtered.forEach(ev => {
                 const badgeColor = getCategoryBadgeColor(ev.category);
+                const scopeStyle = getScopeStyling(ev);
                 html += `
-                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-4 flex flex-col justify-between hover:shadow-md transition-shadow border-t-4 border-t-catholic-navy">
+                    <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-4 flex flex-col justify-between hover:shadow-md transition-shadow border-t-4 ${scopeStyle.cardBorder}">
                         <div>
                             <div class="flex items-center justify-between gap-2 mb-2">
                                 <span class="font-bold text-catholic-navy text-sm bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
@@ -824,7 +961,8 @@
                                     ${ev.category}
                                 </span>
                             </div>
-                            <h3 class="font-bold text-slate-800 text-base mb-2">${ev.title}</h3>
+                            <h3 class="font-bold text-slate-800 text-base mb-1">${ev.title}</h3>
+                            ${scopeStyle.badge ? `<div class="mb-2">${scopeStyle.badge.replace('ml-1.5', '')}</div>` : ''}
                             ${ev.description ? `<p class="text-xs text-slate-600 mb-3">${ev.description}</p>` : ''}
                             
                             <div class="space-y-1.5 text-xs text-slate-600 bg-slate-50 p-2.5 rounded-lg border border-slate-100 mb-4">
@@ -842,8 +980,8 @@
                                 <i class="fa-solid fa-bell"></i> Notificar
                             </button>
                             <div class="flex items-center gap-1">
-                                <button onclick="exportSingleICS(${ev.id})" title="Google Agenda" class="p-1.5 rounded bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200">
-                                    <i class="fa-solid fa-calendar-plus"></i>
+                                <button onclick="duplicateEvent(${ev.id})" title="Duplicar Evento" class="p-1.5 rounded bg-indigo-50 text-indigo-600 hover:bg-indigo-100 border border-indigo-200">
+                                    <i class="fa-solid fa-copy"></i>
                                 </button>
                                 <button onclick="openModal(${ev.id})" title="Editar" class="p-1.5 rounded bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300">
                                     <i class="fa-solid fa-pen-to-square"></i>
@@ -942,6 +1080,7 @@
                 document.getElementById('evTime').value = ev.time || '';
                 document.getElementById('evTitle').value = ev.title;
                 populateModalCategoryDropdown(ev.category);
+                document.getElementById('evScope').value = ev.scope || '';
                 document.getElementById('evLocation').value = ev.location || '';
                 document.getElementById('evTask').value = ev.task || '';
                 document.getElementById('evRespName').value = ev.respName || '';
@@ -955,6 +1094,7 @@
                 document.getElementById('evTime').value = '';
                 document.getElementById('evTitle').value = '';
                 populateModalCategoryDropdown('PASCOM');
+                document.getElementById('evScope').value = '';
                 document.getElementById('evLocation').value = '';
                 document.getElementById('evTask').value = '';
                 document.getElementById('evRespName').value = '';
@@ -986,6 +1126,7 @@
             }
 
             const location = document.getElementById('evLocation').value.trim();
+            const scope = document.getElementById('evScope').value;
             const task = document.getElementById('evTask').value.trim();
             const respName = document.getElementById('evRespName').value.trim();
             const respEmail = document.getElementById('evRespEmail').value.trim();
@@ -998,6 +1139,7 @@
                 id: evId,
                 date,
                 time,
+                scope,
                 title,
                 category,
                 location,
@@ -1151,6 +1293,26 @@
             }
 
             closeNotificationModal();
+        }
+
+        // DUPLICAR EVENTO E ABRIR PARA EDIÇÃO
+        function duplicateEvent(id) {
+            const ev = events.find(e => String(e.id) === String(id));
+            if (!ev) return;
+
+            const newId = Date.now();
+            const duplicatedEvent = {
+                ...ev,
+                id: newId,
+                title: `${ev.title} (Cópia)`
+            };
+
+            if (window.saveEventToCloud) {
+                window.saveEventToCloud(duplicatedEvent);
+            }
+
+            // Abre imediatamente o modal de edição para o usuário ajustar data, hora ou responsável
+            openModal(newId);
         }
 
         // EXPORTAR EVENTO ÚNICO PARA .ICS (GOOGLE AGENDA / OUTLOOK)
